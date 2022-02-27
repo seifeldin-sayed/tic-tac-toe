@@ -1,3 +1,4 @@
+import random
 def board_all(player,p,board_1,board_2,board_3):
     if p=='1':
         board_1.remove('1')
@@ -77,7 +78,15 @@ def play(turn,player,board_1,board_2,board_3,bag):
         print("you have to enter a number! ")
         play(turn,player,board_1,board_2,board_3,bag)
     return(player)
+def comp(player,board_1,board_2,board_3,bag):
+    p = random.choice(bag)
+    board_all(player,p,board_1,board_2,board_3)
+    bag.remove(str(p))
 def game():
+    bagn=['1','2']
+    num_player = input("Enter number of player (1 or 2):")
+    while num_player not in bagn:
+        num_player = input("Enter number of player (1 or 2):")
     bagp=['x','X','o','O']
     player = input("Enter X or O:").upper()
     while player not in bagp:
@@ -90,13 +99,31 @@ def game():
     print(board_2)
     print(board_3)
     bag=['1','2','3','4','5','6','7','8','9']
-    while turn<10:
-        player=play(turn,player,board_1,board_2,board_3,bag)
-        c=check_win(player,board_1,board_2,board_3)
-        player = swap_player(player)
-        if c==1:
-            break  
-        turn+=1
-        if turn==10:
-            print("it's a tie game")  
+    if num_player== '2':
+        while turn<10:
+            player=play(turn,player,board_1,board_2,board_3,bag)
+            c=check_win(player,board_1,board_2,board_3)
+            player = swap_player(player)
+            if c==1:
+                break  
+            turn+=1
+            if turn==10:
+                print("it's a tie game")
+    else:
+        while turn<6:
+            player=play(turn,player,board_1,board_2,board_3,bag)
+            c=check_win(player,board_1,board_2,board_3)
+            player = swap_player(player)
+            if c==1:
+                break
+            if turn==5:
+                print("it's a tie game") 
+                break
+            print("\n")
+            comp(player,board_1,board_2,board_3,bag)
+            c=check_win(player,board_1,board_2,board_3)
+            player = swap_player(player)
+            if c==1:
+                break 
+            turn+=1
 game()
