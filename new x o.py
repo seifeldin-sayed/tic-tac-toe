@@ -1,4 +1,6 @@
+#Tic Tac Toe game 
 import random
+#display the board
 def display_board(board):
     i=1
     for _ in range(3):
@@ -6,13 +8,16 @@ def display_board(board):
         if i<7:
             print('-------')
         i+=3
+#random choice of who will start
 def choose_first():
     if random.randint(0, 1) == 0:
         return 'Player 2'
     else:
         return 'Player 1'
+#place the marker in it's index
 def place_marker(board, marker, position):
     board[position] = marker
+#ask for the player's marker
 def palyer_sign():
     sign=' '
     while not (sign=='X' or sign=='O' ):
@@ -21,6 +26,7 @@ def palyer_sign():
             return('X','O')
         else:
             return('O','X')
+#check if a player win
 def check_win(Board):
     j=k=1
     for _ in range(3):
@@ -33,42 +39,36 @@ def check_win(Board):
     if ((Board[1]==Board[5]==Board[9]!=' ')or(Board[3]==Board[5]==Board[7]!=' ')):
         return True
     return False
+#check for empty spaces
 def space_check(board, position):
     return board[position] == ' '
+#check if it's a full board
 def full_board_check(board):
     for i in range(1,10):
         if space_check(board, i):
             return False
     return True
+# ask for position
 def player_choice(board):
     position = 0
     
     while position not in [1,2,3,4,5,6,7,8,9] or not space_check(board, position):
-        position = int(input('Choose your next position: (1-9): '))
-        
+        position = int(input('Choose your next position: (1-9): ')) 
     return position
 def replay():
     return input('Do you want to play again? Enter Yes or No: ').lower().startswith('y')
+# start of game
 print('Welcome to Tic Tac Toe!')
-
 while True:
     # Reset the board
     Board = [' '] * 10
     player1_marker, player2_marker = palyer_sign()
     turn = choose_first()
     print(turn + ' will go first.')
-    
-        #play_game = input('Are you ready to play? Enter Yes or No.')
-
-        #if play_game.lower()[0] == 'y':
     game_on = True
-        #else:
-            #game_on = False
-
     while game_on:
         if turn == 'Player 1':
             # Player1's turn.
-            
             display_board(Board)
             position = player_choice(Board)
             place_marker(Board, player1_marker, position)
@@ -86,7 +86,6 @@ while True:
                     turn = 'Player 2'
         else:
             # Player2's turn.
-            
             display_board(Board)
             position = player_choice(Board)
             place_marker(Board, player2_marker, position)
@@ -102,6 +101,5 @@ while True:
                     break
                 else:
                     turn = 'Player 1'
-
     if not replay():
         break
